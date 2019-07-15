@@ -1,0 +1,9 @@
+[package]
+name = "norse-fpcamera"
+version = "0.1.0"
+authors = ["msiglreith <m.siglreith@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+winit = "0.19"
+nalgebra-glm = "0.4"
