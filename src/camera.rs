@@ -5,13 +5,23 @@ use winit::*;
 
 #[derive(Debug, Clone)]
 pub struct Camera {
+    move_speed: f32,
+    rotation_speed: f32,
     position: glm::Vec3,
     rotation: glm::Vec3,
 }
 
 impl Camera {
     pub fn new(position: glm::Vec3, rotation: glm::Vec3) -> Self {
-        Camera { position, rotation }
+        Camera { position, rotation, move_speed: 1.0, rotation_speed: 1.0 }
+    }
+
+    pub fn set_move_speed(&mut self, speed: f32) {
+        self.move_speed = speed;
+    }
+
+    pub fn set_rotation_speed(&mut self, speed: f32) {
+        self.rotation_speed = speed;
     }
 
     pub fn update(&mut self, dt: f32, input: &InputMap) {
@@ -32,12 +42,9 @@ impl Camera {
 
         let rotation = input.mouse_delta();
 
-        let move_speed = 2.0;
-        let rot_speed = 0.1;
-
-        self.position += self.view_dir(direction) * move_speed * dt;
-        self.rotation.x += -rotation[1] * rot_speed * dt;
-        self.rotation.y += rotation[0] * rot_speed * dt;
+        self.position += self.view_dir(direction) * self.move_speed * dt;
+        self.rotation.x += rotation[1] * self.rotation_speed * 0.001;
+        self.rotation.y += rotation[0] * self.rotation_speed * 0.001;
     }
 
     pub fn view_dir(&self, direction: glm::Vec3) -> glm::Vec3 {
